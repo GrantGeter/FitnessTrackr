@@ -1,38 +1,39 @@
-import {React, useState} from 'react'
-import {Link} from "react-router-dom";
+import { React, useState, useEffect } from 'react'
+import { Link } from "react-router-dom";
+import { loginUser } from '../api';
 
 const LogIn = () => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [user, setUser] = useState();
 
     const signIn = (event) => {
         event.preventDevault()
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/users/login', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer' + token
-            },
-            body: JSON.stringify({
-                username,
-                password
+        const [username, password] = event.target;
+        if (username.value && password.value) {
+            setUser({
+                username: username.value,
+                password: password.value
             })
-        }).then(response => response.json())
-        .then(result => {
-            localStorage.setItem("token",result.data.token);
-        })
-        .catch(console.error);
+        }
     }
+
+    useEffect(() => {
+        if (user) {
+            const user = loginUser(user)
+                .then(response => storeToken(response.data.token))
+        }
+
+    }, [user])
+
     return (
         <form onSubmit={signIn}>
             <h1 className="logIn">Log In</h1>
             <div className="username">
                 <label>Username: </label>
-                <input type="text" id="username" onChange={(event) => setUsername(event.target.value) }/>
+                <input type="text" id="username" />
             </div>
             <div className="password">
                 <label>Password: </label>
-                <input type="password" id="password" onChange={(event) => setPassword(event.target.value) }/>
+                <input type="password" id="password" />
             </div>
             <div className="buttons">
                 <button className="submit" type="submit" >Submit</button>

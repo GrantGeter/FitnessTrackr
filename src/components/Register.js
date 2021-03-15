@@ -1,39 +1,44 @@
-import {React, useState} from 'react';
+import { React, useState, useEffect } from 'react';
+import { registerUser } from '../api';
+import { storeToken } from '../auth';
 
 const Register = () => {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [token, setToken] = useState('')
+    const [newUser, setNewUser] = useState();
 
     const signUp = (event) => {
         event.preventDefault()
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/users/register', {
-            method: "POST",
-            body: JSON.stringify({
-              username,
-              password
+        const [username, password] = event.target;
+        if (username.value && password.value) {
+            setNewUser({
+                username: username.value,
+                password: password.value
             })
-        }).then(response => response.json())
-        .then(result => {
-          setToken(result.data.token)
-        })
-        .catch(console.error);
+        }
     }
-return (
-    <form onSubmit={signUp}>
-        <h1 className="logIn">Sign Up</h1>
-        <div className="username">
-            <label>Create Username: </label>
-            <input type="text" id="username" onChange={(event) => setUsername(event.target.value) }/>
-        </div>
-        <div className="password">
-            <label>Create Password: </label>
-            <input type="text" id="password" onChange={(event) => setPassword(event.target.value) }/>
-        </div>
-        <div className="buttons">
-            <button className="submit" type="submit" >Submit</button>
-        </div>
-    </form>
+
+    useEffect(() => {
+        if (newUser) {
+            const user = registerUser(newUser)
+                .then(response => storeToken(response.data.token))
+        }
+
+    }, [newUser])
+
+    return (
+        <form onSubmit={signUp}>
+            <h1 className="logIn">Sign Up</h1>
+            <div className="username">
+                <label>Create Username: </label>
+                <input type="text" id="username" />
+            </div>
+            <div className="password">
+                <label>Create Password: </label>
+                <input type="password" id="password" />
+            </div>
+            <div className="buttons">
+                <button className="submit" type="submit" >Submit</button>
+            </div>
+        </form>
     )
 }
 
