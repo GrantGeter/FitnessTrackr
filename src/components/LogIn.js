@@ -16,6 +16,7 @@ const LogIn = () => {
         }
     }
 
+    
     useEffect(() => {
         if (user) {
             const user = loginUser(user)

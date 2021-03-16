@@ -1,6 +1,6 @@
 import {React, useState, useEffect} from 'react';
 
-const UserRoutine = () => {
+const MyRoutine = () => {
     const [routine, setRoutine] = useState([])
     const userToken = localStorage.getItem("token")
 
@@ -53,4 +53,4 @@ const UserRoutine = () => {
     </div>)
 }
 
-export default UserRoutine;
+export default MyRoutine;
