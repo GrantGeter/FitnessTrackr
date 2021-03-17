@@ -1,10 +1,11 @@
 import { React, useState, useEffect, useRef } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { loginUser } from '../api';
 import { storeToken } from '../auth';
 
-const LogIn = ({ setDisplayMessage, setIsShown }) => {
+const LogIn = ({ setDisplayMessage, setIsShown, setIsLoggedIn }) => {
     const [user, setUser] = useState();
+    const history = useHistory();
 
     const signIn = (event) => {
         event.preventDefault()
@@ -15,34 +16,36 @@ const LogIn = ({ setDisplayMessage, setIsShown }) => {
                 password: password.value
             })
         } else {
-            setIsShown(true);
             setDisplayMessage({
                 message: 'Please provide a username and password',
                 type: 'error'
             });
+            setIsShown(true);
         }
     }
 
     let initialRender = useRef(true);
     useEffect(() => {
-        console.log('here');
         if (!initialRender.current) {
             if (user) {
                 loginUser(user)
                     .then(response => {
+                        console.log(response)
                         if (response) {
                             storeToken(response.data.token)
-                            setIsShown(true);
                             setDisplayMessage({
                                 message: response.data.message,
                                 type: 'success'
                             })
-                        } else {
                             setIsShown(true);
+                            setIsLoggedIn(true);
+                            history.push('/home');
+                        } else {
                             setDisplayMessage({
                                 message: 'Incorect username or password.',
                                 type: 'error'
                             })
+                            setIsShown(true);
                         }
                     })
             }

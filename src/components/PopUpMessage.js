@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 const PopupMessage = ({ displayMessage, setIsShown }) => {
-
     useEffect(() => {
         setIsShown(true);
         const timer = setTimeout(() => {

@@ -1,9 +1,11 @@
-import { React, useState, useEffect, useRef } from 'react';
+import { React, useState, useEffect, useRef, } from 'react';
+import { useHistory } from 'react-router-dom'
 import { registerUser } from '../api';
 import { storeToken } from '../auth';
 
-const Register = ({ setDisplayMessage, setIsShown }) => {
+const Register = ({ setDisplayMessage, setIsShown, setIsLoggedIn }) => {
     const [newUser, setNewUser] = useState();
+    const history = useHistory();
 
     const signUp = (event) => {
         event.preventDefault()
@@ -15,19 +17,19 @@ const Register = ({ setDisplayMessage, setIsShown }) => {
                     password: password.value
                 })
             } else {
-                setIsShown(true);
                 setDisplayMessage({
                     message: 'Passwords do not match',
                     type: 'error'
                 });
+                setIsShown(true);
             }
 
         } else {
-            setIsShown(true);
             setDisplayMessage({
                 message: 'Please provide a username and password',
                 type: 'error'
             });
+            setIsShown(true);
         }
     }
 
@@ -40,11 +42,13 @@ const Register = ({ setDisplayMessage, setIsShown }) => {
                     .then(response => {
                         if (response) {
                             storeToken(response.data.token)
-                            setIsShown(true);
                             setDisplayMessage({
                                 message: response.data.message,
                                 type: 'success'
                             })
+                            setIsShown(true);
+                            setIsLoggedIn(true);
+                            history.push('/home');
                         }
                     })
             }
