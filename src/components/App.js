@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
     BrowserRouter as Router,
     Route,
@@ -12,17 +12,27 @@ import UserRoutine from './UserRoutine';
 import Activites from './Activities';
 import AddActivity from "./AddActivity";
 import ActivityRoutine from "./ActivityRoutine";
+import PopupMessage from "./PopUpMessage";
 
 const App = () => {
+    const [displayMessage, setDisplayMessage] = useState('');
+    const [isShown, setIsShown] = useState(false);
     return (
         <Router>
             <div>
                 <Switch>
                     <Route exact path="/register">
-                        <Register />
+                        <Register
+                            setDisplayMessage={setDisplayMessage}
+                            setIsShown={setIsShown}
+
+                        />
                     </Route>
                     <Route exact path="/LogIn">
-                        <LogIn />
+                        <LogIn
+                            setDisplayMessage={setDisplayMessage}
+                            setIsShown={setIsShown}
+                        />
                     </Route>
                     <Route exact path="/UserRoutine">
                         <UserRoutine />
@@ -38,6 +48,11 @@ const App = () => {
                     </Route>
                 </Switch>
             </div>
+            {
+                isShown ? <PopupMessage
+                    displayMessage={displayMessage}
+                    setIsShown={setIsShown} /> : ''
+            }
         </Router>
     )
 }

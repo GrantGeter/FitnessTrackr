@@ -1,25 +1,53 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState, useEffect, useRef } from 'react'
 import { Link } from "react-router-dom";
 import { loginUser } from '../api';
+import { storeToken } from '../auth';
 
-const LogIn = () => {
+const LogIn = ({ setDisplayMessage, setIsShown }) => {
     const [user, setUser] = useState();
 
     const signIn = (event) => {
-        event.preventDevault()
+        event.preventDefault()
         const [username, password] = event.target;
         if (username.value && password.value) {
             setUser({
                 username: username.value,
                 password: password.value
             })
+        } else {
+            setIsShown(true);
+            setDisplayMessage({
+                message: 'Please provide a username and password',
+                type: 'error'
+            });
         }
     }
 
+    let initialRender = useRef(true);
     useEffect(() => {
-        if (user) {
-            const user = loginUser(user)
-                .then(response => storeToken(response.data.token))
+        console.log('here');
+        if (!initialRender.current) {
+            if (user) {
+                loginUser(user)
+                    .then(response => {
+                        if (response) {
+                            storeToken(response.data.token)
+                            setIsShown(true);
+                            setDisplayMessage({
+                                message: response.data.message,
+                                type: 'success'
+                            })
+                        } else {
+                            setIsShown(true);
+                            setDisplayMessage({
+                                message: 'Incorect username or password.',
+                                type: 'error'
+                            })
+                        }
+                    })
+            }
+        } else {
+            initialRender.current = false;
         }
 
     }, [user])
