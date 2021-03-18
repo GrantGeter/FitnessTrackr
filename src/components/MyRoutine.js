@@ -1,56 +1,53 @@
 import {React, useState, useEffect} from 'react';
+import { createRoutine, updateRouitne, deleteRoutine, addActivityToRoutine, updateRouitneActivity} from '../api';
 
-const MyRoutine = () => {
+const MyRoutine = ({isLoggedIn}) => {
+    const [name, setName] = useState('')
+    const [goal, setGoal] = useState('')
     const [routine, setRoutine] = useState([])
-    const userToken = localStorage.getItem("token")
+    const [activity, setActivity] = useState([])
 
-    const getRoutines = (event) => {
-        event.preventDefault()
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/users/albert/routines', {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + userToken
-            },
-            body: JSON.stringify({
-                users: {
-                id,
-                creatorId,
-                creatorName,
-                isPublic: true,
-                name,
-                goal,
-                routine
-                }
-            })
-        }).then(response => response.json())
-        .then(response => {
-            setRoutine(response.routine);
-        })
-        .catch(console.error);
-    }
     useEffect(() => {
-        getRoutines()
+        updateRouitne(name, goal)
+        addActivityToRoutine(activity)
     }, [])
-    return ( <div>    
-                <div className="userList">
-                {users && users.map((user, index) => {
+    return (<div>
+            {isLoggedIn ? <div>
+                <div>Create New Routine:</div>
+                <div>
+                    <label>Name: </label>
+                    <input type="text" id="text" onChange={(event) => setName(event.target.value) }/>  
+                    <label>Goal: </label>
+                    <input type="text" id="text" onChange={(event) => setGoal(event.target.value) }/>  
+                </div>  
+                    <input type="button" onClick={() => createRoutine()} value="Submit"/>
+                <div className="routineList">
+                {routine && routine.map((routine, index) => {
                 return <div key={ index.id }>
                     <hr/>
-                    {/* <h1>{user.id}</h1>
-                    <p>{user.creatorId}</p> */}
-                    <p>{user.creatorName}</p>
-                    <p>{user.isPublic}</p>
-                    <p>{user.name}</p>
-                    <p>{user.goal}</p>
-                    <p>{user.routine}</p>
-                    {/* <p>{user.routine.id}</p> */}
-                    <p>{user.routine.name}</p>
-                    <p>{user.routine.description}</p>
-                    <p>{user.routine.duration}</p>
-                    <p>{user.routine.count}</p>
+                    <h1>{routine.name}</h1>
+                    <p>{routine.goal}</p>
+                    <p>{routine.duration}</p>
+                    <p>{routine.count}</p>
+                    { routine.isAuthor ? (<div><div><button onClick={() =>updateRouitne(post)}>Update Routine</button></div><div><button onClick={() => deleteRoutine(routine._id)}>Delete</button></div><div><button onClick={() => updateRouitneActivity(routine._id)}>Update Activity</button></div></div>):null}
                     </div>})}
-                </div>
-    </div>)
+                    </div>
+                </div>:null}
+            </div>
+    )
 }
+
+{/* <fieldset>
+<label htmlFor="MyRoutine">Activity <span>({ routine.length })</span></label>
+<select 
+  name="activites"
+  id={activity._id}
+  value={activity} 
+  onChange={(event) => setActivity(event.target.value)}>
+  <option value="any">Any</option>
+  {activities.map((activity, index) => {
+  return <option key={index} value={activity.name}>{activity.name}</option> })}
+</select>
+</fieldset> */}
 
 export default MyRoutine;

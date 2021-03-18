@@ -12,9 +12,10 @@ import LogIn from './LogIn';
 import LogOut from './LogOut'
 import MyRoutine from './MyRoutine';
 import Activites from './Activities';
-import ActivityRoutine from './ActivityRoutine';
+import Routines from './Routines';
 import checklogin from './CheckLogIn';
 import PopupMessage from './PopUpMessage';
+import Home from './Home';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(checklogin());
@@ -41,22 +42,24 @@ const App = () => {
                                     </> : null
                             }
                             <li>
-                                <Link to="/home">Home</Link>
-                            </li>
-                            <li>
                                 <Link to="/activites">Activites</Link>
                             </li>
                             <li>
-                                <Link to="/routine">Routines</Link>
-                            </li>
-                            <li>
-                                <Link to="/myRoutine">My Routines</Link>
+                                <Link to="/routines">Routines</Link>
                             </li>
                             {
                                 isLoggedIn ?
+                                <>
+                                    <li>
+                                        <Link to="/home">Home</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/myRoutine">My Routines</Link>
+                                    </li>
                                     <li>
                                         <Link to="/logout">Log Out</Link>
-                                    </li> : null
+                                    </li> 
+                                    </>: null
                             }
                         </>
                     </ul>
@@ -82,14 +85,14 @@ const App = () => {
                         <Route exact path="/MyRoutine">
                             <MyRoutine isLoggedIn={isLoggedIn} />
                         </Route>
+                        <Route exact path="/Home">
+                            <Home isLoggedIn={isLoggedIn} />
+                        </Route>
                         <Route exact path="/Activites">
                             <Activites />
                         </Route>
-                        {/* <Route exact path="/Routines">
+                        <Route exact path="/Routines">
                             <Routines />
-                        </Route> */}
-                        <Route exact path="/ActivityRoutine">
-                            <ActivityRoutine />
                         </Route>
                         <Route exact path="/logout">
                             <LogOut
