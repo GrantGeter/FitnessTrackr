@@ -61,18 +61,21 @@ const Register = ({ setDisplayMessage, setIsShown, setIsLoggedIn }) => {
     return (
         <form onSubmit={signUp}>
             <h1 className="logIn">Sign Up</h1>
-            <div className="username">
+            <div className="form-input">
                 <label>Create Username: </label>
                 <input type="text" id="username" />
             </div>
-            <div className="password">
+            <br />
+            <div className="form-input">
                 <label>Create Password: </label>
                 <input type="password" />
             </div>
-            <div className="password">
+            <br />
+            <div className="form-input">
                 <label>Confirm Password: </label>
                 <input type="password" />
             </div>
+            <br />
             <div className="buttons">
                 <button className="submit" type="submit" >Submit</button>
             </div>

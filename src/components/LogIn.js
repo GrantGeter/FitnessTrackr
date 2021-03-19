@@ -58,14 +58,16 @@ const LogIn = ({ setDisplayMessage, setIsShown, setIsLoggedIn }) => {
     return (
         <form onSubmit={signIn}>
             <h1 className="logIn">Log In</h1>
-            <div className="username">
+            <div className="form-input">
                 <label>Username: </label>
                 <input type="text" id="username" />
             </div>
-            <div className="password">
+            <br />
+            <div className="form-input">
                 <label>Password: </label>
                 <input type="password" id="password" />
             </div>
+            <br />
             <div className="buttons">
                 <button className="submit" type="submit" >Submit</button>
                 <Link className="linkButton" to="/register">Register</Link>

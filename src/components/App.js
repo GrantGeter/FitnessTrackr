@@ -11,10 +11,11 @@ import Register from './Register';
 import LogIn from './LogIn';
 import LogOut from './LogOut'
 import MyRoutine from './MyRoutine';
-import Activites from './Activities';
+import Activities from './Activities';
 import ActivityRoutine from './ActivityRoutine';
 import checklogin from './CheckLogIn';
 import PopupMessage from './PopUpMessage';
+import Home from './Home';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(checklogin());
@@ -44,14 +45,17 @@ const App = () => {
                                 <Link to="/home">Home</Link>
                             </li>
                             <li>
-                                <Link to="/activites">Activites</Link>
+                                <Link to="/activities">activities</Link>
                             </li>
                             <li>
                                 <Link to="/routine">Routines</Link>
                             </li>
-                            <li>
-                                <Link to="/myRoutine">My Routines</Link>
-                            </li>
+                            {
+                                isLoggedIn ?
+                                    <li>
+                                        <Link to="/myRoutine">My Routines</Link>
+                                    </li> : null
+                            }
                             {
                                 isLoggedIn ?
                                     <li>
@@ -64,6 +68,9 @@ const App = () => {
 
                 <div>
                     <Switch>
+                        <Route exact path='/home'>
+                            <Home />
+                        </Route>
                         <Route exact path="/register">
                             <Register
                                 setDisplayMessage={setDisplayMessage}
@@ -82,8 +89,12 @@ const App = () => {
                         <Route exact path="/MyRoutine">
                             <MyRoutine isLoggedIn={isLoggedIn} />
                         </Route>
-                        <Route exact path="/Activites">
-                            <Activites />
+                        <Route exact path="/activities">
+                            <Activities
+                                isLoggedIn={isLoggedIn}
+                                setDisplayMessage={setDisplayMessage}
+                                setIsShown={setIsShown}
+                            />
                         </Route>
                         {/* <Route exact path="/Routines">
                             <Routines />
@@ -95,6 +106,8 @@ const App = () => {
                             <LogOut
                                 isLoggedIn={isLoggedIn}
                                 setIsLoggedIn={setIsLoggedIn}
+                                setDisplayMessage={setDisplayMessage}
+                                setIsShown={setIsShown}
                             />
                         </Route>
                     </Switch>

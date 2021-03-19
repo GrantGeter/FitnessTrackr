@@ -1,92 +1,87 @@
-import {React, useState, useEffect} from 'react'
+import { React, useState, useEffect } from 'react'
+import { fetchAllActivities, createActivity } from '../api'
+import { getToken } from '../auth';
 
-const Activites = () => {
-    const [activities, setActivities] = useState([])
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
+const activities = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
+    const [allActivities, setAllActivities] = useState([]);
+    const [newActivity, setNewActivity] = useState();
 
-    const getActivites = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault()
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/activities', {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                users: {
-                id,
-                description,
-                name,
-                }
+        const [name, desc] = event.target
+        if (name.value && desc.value) {
+            setNewActivity({
+                name: name.value,
+                description: desc.value
+            });
+        } else {
+            setDisplayMessage({
+                message: 'Please provide a name and description',
+                type: 'error'
             })
-        }).then(response => response.json())
-        .then(result => {setActivities(result.data.activities);
-        })
-        .catch(console.error);
-    }
-useEffect (() => { 
-        getActivites(),
-        getUpdatedActivity(),
-        AddActivity()
-    }
-,[])
-
-    const getUpdatedActivity = () => {
-        setName(activities.name)
-        setDescription(activities.description)
-        fetch('http://fitnesstrac-kr.herokuapp.com/api/activities/9', {
-            method: "PATCH",
-            body: JSON.stringify({
-                id,
-                name,
-                description
-            })
-        }).then(response => response.json())
-        .then(result => {
-            console.log(result);
-        })
-        .catch(console.error);
-    }
-
-    const AddActivity = () => {
-        const [name, setName] = useState('')
-        const [description, setDescription] = useState('')
-        const userToken = localStorage.getItem("token")
-    
-        const getNewActivity = () => {
-            fetch('http://fitnesstrac-kr.herokuapp.com/api/activities', {
-                method: "POST",
-                headers: {
-                    'Content-Type':'application/json',
-                    'Authorization':'Bearer ' + userToken
-                },
-                body: JSON.stringify({
-                    name,
-                    description
-                })
-            }).then(response => response.json())
-            .then(result => {
-                console.log(result);
-            })
-            .catch(console.error);
+            setIsShown(true);
         }
-        return (
-            <form>
-               <div>
-                    <div>Create New Activity:</div>
-                        <label>Name: </label>
-                        <input type="text" id="text" onChange={(event) => setName(event.target.value) }/>  
-                    </div>
-                    <div>
-                        <label>Description: </label>
-                        <input type="text" id="text" onChange={(event) => setDescription(event.target.value) }/>  
-                    </div>  
-                    <div>
-                        <input type="button" onClick={() => getNewActivity()} value="Submit"/>
-                </div>
-            </form>
-        )
-    
     }
+
+    useEffect(() => {
+        fetchAllActivities()
+            .then(response => {
+                setAllActivities(response.data);
+            })
+    }, [newActivity])
+
+    useEffect(() => {
+        if (newActivity) {
+            createActivity(newActivity, getToken())
+                .then(response => {
+                    if (response) {
+                        setDisplayMessage({
+                            message: 'Activity created!',
+                            type: 'success'
+                        })
+                        setIsShown(true);
+                    } else {
+                        setDisplayMessage({
+                            message: 'Activity already exists',
+                            type: 'error'
+                        })
+                        setIsShown(true);
+                    }
+                })
+        }
+    }, [newActivity])
+    return (
+        <>
+            { isLoggedIn ?
+                <form onSubmit={handleSubmit}>
+                    <h3>Create New Activity:</h3>
+                    <div className='form-input'>
+                        <label>Name: </label>
+                        <input type="text" id="text" />
+                    </div>
+                    <br />
+                    <div className='form-input'>
+                        <label>Description: </label>
+                        <input type="text" id="text" />
+                    </div>
+                    <br />
+                    <div>
+                        <button type="submit"> Submit </button>
+                    </div>
+                </form> : null
+            }
+            {
+                allActivities.map((activity, index) => {
+                    return (
+                        <div className='activity' key={index}>
+                            <h3>{activity.name}</h3>
+                            <p>{activity.description}</p>
+                        </div>
+                    )
+                })
+            }
+        </>
+    )
 }
 
-export default Activites;
+export default activities;
