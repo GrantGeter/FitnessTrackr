@@ -1,15 +1,19 @@
 import {React, useState, useEffect} from 'react';
-import { createRoutine, updateRouitne, deleteRoutine, addActivityToRoutine, updateRouitneActivity} from '../api';
+import { fetchAllActivities, createRoutine, updateRouitne, deleteRoutine, addActivityToRoutine, updateRouitneActivity} from '../api';
 
 const MyRoutine = ({isLoggedIn}) => {
     const [name, setName] = useState('')
     const [goal, setGoal] = useState('')
-    const [routine, setRoutine] = useState([])
-    const [activity, setActivity] = useState([])
+    const [routine, setRoutine] = useState('')
+    const [activity, setActivity] = useState('')
+    // bring in token
+    //helper function in the use effect for fetch activites
 
-    useEffect(() => {
-        updateRouitne(name, goal)
-        addActivityToRoutine(activity)
+    //addActivityToRoutine(activity),
+    useEffect( async () => {
+        const activities = await fetchAllActivities()
+        setActivity(activities)
+        console.log(activity)
     }, [])
     return (<div>
             {isLoggedIn ? <div>
@@ -29,25 +33,26 @@ const MyRoutine = ({isLoggedIn}) => {
                     <p>{routine.goal}</p>
                     <p>{routine.duration}</p>
                     <p>{routine.count}</p>
-                    { routine.isAuthor ? (<div><div><button onClick={() =>updateRouitne(post)}>Update Routine</button></div><div><button onClick={() => deleteRoutine(routine._id)}>Delete</button></div><div><button onClick={() => updateRouitneActivity(routine._id)}>Update Activity</button></div></div>):null}
+                    { routine.isAuthor ? (<div><div><button onClick={() =>updateRouitne(name, goal, token)}>Update Routine</button></div><div><button onClick={() => deleteRoutine(routine._id)}>Delete</button></div><div><button onClick={() => updateRouitneActivity(routine._id)}>Update Activity</button></div></div>):null}
                     </div>})}
                     </div>
                 </div>:null}
-            </div>
+                <fieldset>
+                <label htmlFor="MyRoutine">Activity <span>({ routine.length })</span></label>
+                <select 
+                    name="activites"
+                    id={activity._id}
+                    value={activity} 
+                    onChange={(event) => setActivity(event.target.value)}>
+                        <option value="any">Any</option>
+                    {activity.map((activity, index) => {
+                    return <option key={index} value={activity.name}>{activity.name}</option> })}
+                   </select>
+                </fieldset> 
+        </div>
     )
 }
 
-{/* <fieldset>
-<label htmlFor="MyRoutine">Activity <span>({ routine.length })</span></label>
-<select 
-  name="activites"
-  id={activity._id}
-  value={activity} 
-  onChange={(event) => setActivity(event.target.value)}>
-  <option value="any">Any</option>
-  {activities.map((activity, index) => {
-  return <option key={index} value={activity.name}>{activity.name}</option> })}
-</select>
-</fieldset> */}
+
 
 export default MyRoutine;
