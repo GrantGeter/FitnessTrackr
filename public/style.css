@@ -12,6 +12,25 @@ form {
     border-radius: 4px;
 }
 
+button, input[type='submit'] {
+    padding: 10px;
+    border: 2px solid lightslategray;
+    border-radius: 4px;
+}
+
+button:hover, input[type='submit']:hover {
+    padding: 10px;
+    border: 2px solid rgb(23, 75, 128);
+    border-radius: 4px;
+}
+
+button:active, input[type='submit']:active {
+    padding: 10px;
+    border: 2px solid rgb(23, 75, 128);
+    background-color: rgb(23, 75, 128);
+    border-radius: 4px;
+}
+
 .home {
     display: flex;
     align-items: center;
@@ -111,4 +130,43 @@ form {
     display: flex;
     text-align: center;
     justify-content: center;
+}
+
+.myRoutines {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: lightblue;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.myRoutinesControl, .myRoutineActivityControl {
+    display: flex;
+    justify-content: space-between;
+    width: 25vw;
+    margin: 20px;
+    padding: 10px;
+}
+
+
+.activityList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.routineActivity {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid lightslategray;
+    border-radius: 4px;
+    margin: 20px;
+    padding: 10px;
+    min-width: 80vw;
 }

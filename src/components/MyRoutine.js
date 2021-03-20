@@ -17,6 +17,7 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        console.log('here');
         const [name, goal, isPublic] = event.target;
         if (name.value && goal.value) {
             if (!routineToUpdate) {
@@ -107,6 +108,9 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
         setActivityToAdd(null);
         setActivityToDelete(null);
         setUpdatedActivity(null);
+
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
     }
 
     const handleUpdate = (routine) => {
@@ -119,6 +123,9 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
         setActivityToDelete(null);
         setUpdatedActivity(null);
         setActivityToUpdate(null);
+
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
     }
 
     const handleAddActivity = (id) => {
@@ -131,6 +138,9 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
         setActivityToDelete(null);
         setUpdatedActivity(null);
         setActivityToUpdate(null);
+
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
     }
 
     useEffect(() => {
@@ -305,7 +315,7 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
                                         <button onClick={() => setRoutineToUpdate(null)}>Cancel</button>
                                     </form>
                                 : !activityToUpdate ?
-                                    <form onSubmit={() => handleActivitySubmit(event,)}>
+                                    <form onSubmit={handleActivitySubmit}>
                                         <h2>Add activity to routine</h2>
                                         <select>
                                             {
@@ -319,17 +329,17 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
                                         <label>Duration: </label>
                                         <input type="text" />
                                         <input type="submit" value="Submit" />
-                                        <button onClick={() => setRoutineIdToAddActivity(null)}>Cancel</button>
+                                        <button type='button' onClick={() => setRoutineIdToAddActivity(null)}>Cancel</button>
                                     </form>
                                     :
-                                    <form onSubmit={() => handleActivitySubmit(event,)}>
+                                    <form onSubmit={handleActivitySubmit}>
                                         <h2>Update routine activity</h2>
                                         <label>Count: </label>
                                         <input type="text" defaultValue={activityToUpdate.count} />
                                         <label>Duration: </label>
                                         <input type="text" defaultValue={activityToUpdate.duration} />
                                         <input type="submit" value="Submit" />
-                                        <button onClick={() => setRoutineIdToAddActivity(null)}>Cancel</button>
+                                        <button type='button' onClick={() => setActivityToUpdate(null)}>Cancel</button>
                                     </form>
                         }
                         {
@@ -338,7 +348,7 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
                                     {
                                         userRoutines.map((routine, index) => {
                                             return (
-                                                <div key={index}>
+                                                <div key={index} className='myRoutines'>
                                                     <hr />
                                                     <h1>{routine.name}</h1>
                                                     <p>{routine.goal}</p>
@@ -350,13 +360,15 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
                                                                 {
                                                                     routine.activities.map((activity, index) => {
                                                                         return (
-                                                                            <div key={index}>
+                                                                            <div key={index} className='routineActivity'>
                                                                                 <h3>{activity.name}</h3>
                                                                                 <p>{activity.description}</p>
                                                                                 <p>Duration: {activity.duration}</p>
                                                                                 <p>Count: {activity.count}</p>
-                                                                                <button onClick={() => handleActivityUpdate(activity)}>Update activity</button>
-                                                                                <button onClick={() => handleActivityDelete(activity)}>Delete activity</button>
+                                                                                <div className='myRoutineActivityControl'>
+                                                                                    <button onClick={() => handleActivityUpdate(activity)}>Update activity</button>
+                                                                                    <button onClick={() => handleActivityDelete(activity)}>Delete activity</button>
+                                                                                </div>
                                                                             </div>
                                                                         )
                                                                     })
@@ -365,16 +377,10 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
                                                             : null
                                                     }
 
-                                                    <div>
-                                                        <div>
-                                                            <button onClick={() => handleUpdate(routine)}>Update Routine</button>
-                                                        </div>
-                                                        <div>
-                                                            <button onClick={() => handleDelete(routine)}>Delete</button>
-                                                        </div>
-                                                        <div>
-                                                            <button onClick={() => handleAddActivity(routine.id)}>Add Activity</button>
-                                                        </div>
+                                                    <div className='myRoutinesControl'>
+                                                        <button onClick={() => handleUpdate(routine)}>Update Routine</button>
+                                                        <button onClick={() => handleDelete(routine)}>Delete</button>
+                                                        <button onClick={() => handleAddActivity(routine.id)}>Add Activity</button>
                                                     </div>
                                                 </div>
                                             )

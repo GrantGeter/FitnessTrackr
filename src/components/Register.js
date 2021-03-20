@@ -49,6 +49,12 @@ const Register = ({ setDisplayMessage, setIsShown, setIsLoggedIn }) => {
                             setIsShown(true);
                             setIsLoggedIn(true);
                             history.push('/home');
+                        } else {
+                            setDisplayMessage({
+                                message: 'User already exists',
+                                type: 'error'
+                            })
+                            setIsShown(true);
                         }
                     })
             }
