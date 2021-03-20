@@ -1,9 +1,13 @@
 const Home = () => {
     return (
-        <div className='home'>
-            <h1>Welcome To Fitness Trackr</h1>
-        </div>
-    )
+        <div>
+            <div >
+                <h1 className="home">Welcome to FitnessTrackr</h1>
+            </div>
+            <div>
+                <h2 className="home">You are logged in!</h2>
+            </div>
+        </div>)
 }
 
 export default Home;

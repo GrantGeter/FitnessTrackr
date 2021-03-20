@@ -1,5 +1,7 @@
-export { default as activities } from './activities';
+export { default as Activities } from './Activities';
 export { default as LogIn } from './LogIn';
-export { default as UserRoutine } from './PUserRoutine';
+export { default as MyRoutine } from './MyRoutine';
 export { default as Register } from './Register';
-export { default as ActivityRoutine } from './ActivityRoutine'
+export { default as Routines } from './Routines';
+export { default as Home } from './Home';
+export { default as LogOut } from './LogOut';
