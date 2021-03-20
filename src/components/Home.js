@@ -1,11 +1,9 @@
 const Home = () => {
     return (
-        <div>
+        <div className="home">
             <div >
-                <h1 className="home">Welcome to FitnessTrackr</h1>
-            </div>
-            <div>
-                <h2 className="home">You are logged in!</h2>
+                <h1>Welcome to FitnessTrackr</h1>
+                <p>Please enjoy creating and exploring different routines and activities!</p>
             </div>
         </div>)
 }

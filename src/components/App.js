@@ -28,7 +28,7 @@ const App = () => {
                     <header>
                         <h1 className="fitness">Fitness Trackr</h1>
                     </header >
-                    <ul className="nav">
+                    <ul className="header">
                         <>
                             {
                                 !isLoggedIn ?
