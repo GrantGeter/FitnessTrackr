@@ -11,7 +11,7 @@ import Register from './Register';
 import LogIn from './LogIn';
 import LogOut from './LogOut'
 import MyRoutine from './MyRoutine';
-import Activites from './Activities';
+import Activities from './Activities';
 import Routines from './Routines';
 import checklogin from './CheckLogIn';
 import PopupMessage from './PopUpMessage';
@@ -42,24 +42,24 @@ const App = () => {
                                     </> : null
                             }
                             <li>
-                                <Link to="/activites">Activites</Link>
+                                <Link to="/activities">Activities</Link>
                             </li>
                             <li>
-                                <Link to="/routines">Routines</Link>
+                                <Link to="/Routines">Routines</Link>
                             </li>
                             {
                                 isLoggedIn ?
-                                <>
-                                    <li>
-                                        <Link to="/home">Home</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/myRoutine">My Routines</Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/logout">Log Out</Link>
-                                    </li> 
-                                    </>: null
+                                    <>
+                                        <li>
+                                            <Link to="/home">Home</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/myRoutine">My Routines</Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/logout">Log Out</Link>
+                                        </li>
+                                    </> : null
                             }
                         </>
                     </ul>
@@ -67,6 +67,9 @@ const App = () => {
 
                 <div>
                     <Switch>
+                        <Route exact path='/home'>
+                            <Home />
+                        </Route>
                         <Route exact path="/register">
                             <Register
                                 setDisplayMessage={setDisplayMessage}
@@ -82,14 +85,12 @@ const App = () => {
                                 setIsLoggedIn={setIsLoggedIn}
                             />
                         </Route>
-                        <Route exact path="/MyRoutine">
-                            <MyRoutine isLoggedIn={isLoggedIn} />
-                        </Route>
-                        <Route exact path="/Home">
-                            <Home isLoggedIn={isLoggedIn} />
-                        </Route>
-                        <Route exact path="/Activites">
-                            <Activites />
+                        <Route exact path="/activities">
+                            <Activities
+                                isLoggedIn={isLoggedIn}
+                                setDisplayMessage={setDisplayMessage}
+                                setIsShown={setIsShown}
+                            />
                         </Route>
                         <Route exact path="/Routines">
                             <Routines />
@@ -98,6 +99,15 @@ const App = () => {
                             <LogOut
                                 isLoggedIn={isLoggedIn}
                                 setIsLoggedIn={setIsLoggedIn}
+                                setDisplayMessage={setDisplayMessage}
+                                setIsShown={setIsShown}
+                            />
+                        </Route>
+                        <Route exact path='/myRoutine'>
+                            <MyRoutine
+                                isLoggedIn={isLoggedIn}
+                                setDisplayMessage={setDisplayMessage}
+                                setIsShown={setIsShown}
                             />
                         </Route>
                     </Switch>

@@ -36,7 +36,7 @@ export const fetchUser = async (token) => {
 
 export const fetchPublicRoutinesByUser = async (username) => {
     try {
-        const data = await axios.get(`${baseUrl}/${username}/routines`);
+        const data = await axios.get(`${baseUrl}/users/${username}/routines`);
         return data;
     } catch (error) {
         console.error(error);
@@ -112,7 +112,7 @@ export const createRoutine = async (routine, token) => {
     }
 }
 
-export const updateRouitne = async (id, routine, token) => {
+export const updateRoutine = async (id, routine, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
@@ -140,7 +140,7 @@ export const deleteRoutine = async (id, token) => {
     }
 }
 
-export const addActivityToRoutine = async (activityId, count, duration) => {
+export const addActivityToRoutine = async (id, { activityId, count, duration }) => {
     try {
         const data = await axios.post(`${baseUrl}/routines/${id}/activities`, { activityId, count, duration })
         return data;
@@ -149,7 +149,7 @@ export const addActivityToRoutine = async (activityId, count, duration) => {
     }
 }
 
-export const updateRouitneActivity = async (id, count, duration, token) => {
+export const updateRouitneActivity = async (id, { count, duration }, token) => {
     const config = {
         headers: {
             Authorization: `Bearer ${token}`

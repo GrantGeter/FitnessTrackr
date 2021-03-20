@@ -1,34 +1,47 @@
-import {React, useState, useEffect} from 'react'
-import { getPublicRoutinesByActivity, getAllPublicRoutines } from '../api';
-const ActivityRoutine = () => {
-    const [activity, setActivity] = useState([])
-    const [routine, setRoutine] = useState([])
-    
-useEffect(() => {
-        getAllPublicRoutines(routine),
-        getPublicRoutinesByActivity(activity)
+import { React, useState, useEffect } from 'react'
+import { getAllPublicRoutines } from '../api';
+const Routine = () => {
+    const [routines, setRoutines] = useState([])
+    useEffect(() => {
+        getAllPublicRoutines()
+            .then(response => {
+                setRoutines(response.data);
+
+            })
     }, [])
-        return ( <div>    
-                    <div className="routineList">
-                        {routine && routine.map((routine, index) => {
-                        return <div key={ index.id }>
-                            <hr/>
-                            <p>{routine.name}</p>
-                            <p>{routine.goal}</p>
-                            <p>{routine.creatorName}</p>
-                            </div>})}
+    return (<div>
+        <div className="routineList">
+            {routines.map((routine, index) => {
+                return (
+                    <div key={index}>
+                        <hr />
+                        <h2>{routine.name}</h2>
+                        <p>{routine.goal}</p>
+                        {
+                            routine.activities.length > 0 ?
+                                <div className="activityList">
+                                    <h3>Activities</h3>
+                                    {
+                                        routine.activities.map((activity, index) => {
+                                            return (
+                                                <div key={index}>
+                                                    <h3>{activity.name}</h3>
+                                                    <p>{activity.description}</p>
+                                                    <p>Duration: {activity.duration}</p>
+                                                    <p>Count: {activity.count}</p>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                                : null
+                        }
+                        <p>Created by: {routine.creatorName}</p>
                     </div>
-                    <div className="activityList">
-                        {activity && activity.map((activity, index) => {
-                        return <div key={ index.id }>
-                        <hr/>
-                        <p>{activity.name}</p>
-                        <p>{activity.description}</p>
-                        <p>{activity.duration}</p>
-                        <p>{activity.count}</p>
-                        </div>})}
-                    </div>
-                </div>)
+                )
+            })}
+        </div>
+    </div>)
 }
 
-export default ActivityRoutine;
+export default Routine;
