@@ -396,17 +396,6 @@ const MyRoutine = ({ isLoggedIn, setIsShown, setDisplayMessage }) => {
     )
 }
 
-{/* <fieldset>
-<label htmlFor="MyRoutine">Activity <span>({ routine.length })</span></label>
-<select 
-  name="activites"
-  id={activity._id}
-  value={activity} 
-  onChange={(event) => setActivity(event.target.value)}>
-  <option value="any">Any</option>
-  {activities.map((activity, index) => {
-  return <option key={index} value={activity.name}>{activity.name}</option> })}
-</select>
-</fieldset> */}
+
 
 export default MyRoutine;
