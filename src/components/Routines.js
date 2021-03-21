@@ -15,7 +15,7 @@ const Routine = () => {
             {routines.map((routine, index) => {
                 return (
                     <div className='routines' key={index}>
-                       
+
                         <hr />
                         <h2 className='name'>{routine.name}</h2>
                         <p>{routine.goal}</p>
@@ -26,7 +26,7 @@ const Routine = () => {
                                     {
                                         routine.activities.map((activity, index) => {
                                             return (
-                                                <div key={index}>
+                                                <div className='routineActivity' key={index}>
                                                     <h3 >{activity.name}</h3>
                                                     <p>{activity.description}</p>
                                                     <p>Duration: {activity.duration}</p>

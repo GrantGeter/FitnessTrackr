@@ -148,9 +148,6 @@ button:active, input[type='submit']:active {
     background-color: lightblue;
     margin: 20px;
     padding: 10px;
-    border: rgb(23, 75, 128);
-    border-width: 10px;
-    border-style: solid;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -186,11 +183,13 @@ button:active, input[type='submit']:active {
     display: flex;
     min-width: 80vw;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: lightblue;
     margin: 20px;
     padding: 10px;
     border: rgb(23, 75, 128);
-    border-width: 10px;
+    border-width: 4px;
     border-style: solid;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
