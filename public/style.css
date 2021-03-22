@@ -143,13 +143,11 @@ button:active, input[type='submit']:active {
 .routines{
     display: flex;
     text-align: center;
+    justify-content: center;
     flex-direction: column;
     background-color: lightblue;
     margin: 20px;
     padding: 10px;
-    border: rgb(23, 75, 128);
-    border-width: 10px;
-    border-style: solid;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -183,20 +181,15 @@ button:active, input[type='submit']:active {
 
 .routineActivity {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid lightslategray;
-    border-radius: 4px;
-    margin: 20px;
-    padding: 10px;
     min-width: 80vw;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: lightblue;
     margin: 20px;
     padding: 10px;
     border: rgb(23, 75, 128);
-    border-width: 10px;
+    border-width: 4px;
     border-style: solid;
     border-radius: 5px;
     font-family: Arial, Helvetica, sans-serif;
